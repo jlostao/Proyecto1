@@ -4,37 +4,93 @@
         <meta charset="utf-8">
         <title>Proyecto 1</title>
         <link href="index.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
     </head>
     <body>
-        <div class="autocenter global">
-            <h2>Reglas del juego</h2>
-            <p>Bienvenido a Siete y medio, este juego se basa en 
-            apostar puntos y sacar cartas.
-            </p>
-            <p>Los jugadores empiezan con 20 puntos.</p>
-            <p>Las normas son las siguientes:</p>
-            <ol>
-                    <li> Se ha de decidir la prioridad de los jugadores 
-                    lanzando una carta a cada uno y del mas gradnde al
-                    mas pequeño esa es la prioridad. El mas grande se 
-                    covierte en la banca.
-                    </li>
-                    <li>Se ha de apostar puntos en orden de prioridad 
-                    y la banca no apuesta.
-                    </li>
-                    <li> Empieza sacando cartas el de la prioridad mas baja y
-                    se va en orden hasta que le toca a la banca.
-                    </li>
-                    <li>Una vez todos los jugadores han lanzado sus cartas
-                    saca la banca y a quien le haya ganado cobra los puntos y
-                    con el que haya perdido le cobra a la banca y asi hasta el fial.
-                    </li>
-                </ol>
-            <p>Las normas son las siguientes:En caso de empate la banca gana y si se saca un siete y medio
-                la banca se cambia a ese jugador y cobra el doble de lo apostado.</p>
-            <p>En caso de que la banca no pueda pagar los puntos se daran en orden e prioridad
-                del que mas prioridadtiene al que menos, la banca pasa a ser el jugador
-                con mas prioridad.</p>
+        <div class="upper">
+            <a href="index.html">
+                <img class="logo" src="imagenes/logo.png">
+            </a>
+            <h1 class="title">Siete y medio</h1>
         </div>
+        <header>
+            <div class="lower">
+                <a href=equip.html">Equipo</a>
+                <a href="tutorial.html">Tutorial</a>
+                <a href="documentacion_programacion.html">Documentación</a>
+            </div>
+        </header>
+        <div class="autocenter global">
+            <div class="texto">
+                <h2>Reglas del juego</h2>
+                <ol>
+                    <li>El número de jugadores debe estar entre 2 y 6.</li>
+                    <br>
+                    <li>Se jugará un máximo de 30 manos.</li>
+                    <br>
+                    <li>Cada jugador inicia la partida con 20 puntos.</li>
+                    <br>
+                    <li>Inicialmente, se reparte una carta a cada jugador, que establecerá las prioridades de
+                        cada uno. El de mayor prioridad será la banca.
+                    </li>
+                    <br>
+                    <li>Una vez establecidas las prioridades, se devuelven las cartas al mazo. Se establecen
+                        las apuestas de cada jugador.
+                    </li>
+                    <br>
+                    <li>Seguidamente, el programa reparte una carta a cada jugador y comienza la primera
+                        ronda. Cada jugador decide si quiere recibir más cartas del mazo. Si no quiere más
+                        cartas, se planta. Puede pedir tantas cartas del mazo como crea conveniente y se
+                        puede plantar cuando quiera.
+                    </li>
+                    <br>
+                    <li>Cuando todos han acabado de escoger cartas, juega la banca, si la banca no se pasa,
+                        se compara la puntuación de la banca con la de cada jugador.
+                    </li>
+                    <br>
+                    <ul>
+                        <li>Si el jugador tiene igual de puntos o menos que la banca, paga lo apostado a
+                            la banca.
+                        </li>
+                        <br>
+                        <li>Si el jugador se ha pasado, igualmente paga lo apostado a la banca.</li>
+                        <br>
+                        <li>Si el jugador tiene siete y medio y la banca no, gana el doble de lo apostado y
+                            pasará a ser uno de los candidatos a la banca.
+                        </li>
+                        <br>
+                        <li>En caso de no tener siete y medio, pero tener más puntos que la banca, la
+                            banca le paga lo apostado.
+                        </li>
+                        <br>
+                    </ul>
+                    <li>Si la banca se pasa, pagará a todos los jugadores que no se hayan pasado, lo que
+                        hayan apostado.
+                    </li>
+                    <br>
+                    <li>El jugador que pierde todos sus puntos, queda eliminado de la partida. Los otros
+                        pueden seguir jugando más rondas.
+                    </li>
+                    <br>
+                    <li>Una vez realizado los pagos, si la banca no ha sacado siete y medio, y hay candidatos
+                        a la banca, el jugador con más prioridad de entre los candidatos, pasará a ser la
+                        nueva banca.
+                    </li>
+                    <br>
+                    <li>En caso de quedar eliminada la banca, si no hay candidatos a la banca, el jugador
+                        con más prioridad pasará a ser la nueva banca.
+                    </li>
+                    <br>
+                    <li>El jugador ganador es el que más puntos ha obtenido después de todas las rondas
+                        jugadas.
+                    </li>
+                    <br>
+                </ol>
+            </div>
+        </div>
+        <footer>
+            <p class="name">Jordi Lostao Navarrete | Gabriel Travé Biel | Manel Ruano García</p>
+        </footer>
     </body>
 </html>

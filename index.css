@@ -1,3 +1,6 @@
+body{
+    background-image: url("imagenes/pizarra.png");
+}
 .autocenter { 
     box-sizing: border-box;
     margin-left: auto;
@@ -11,5 +14,106 @@
 .global {
     display:flex;
     flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+}
+
+.global .texto{
+    font-family: 'Handlee', cursive;
+    color: white;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 100%;
+    align-content: center;
     
+    position: sticky;
+    top: 0;
+}
+
+.upper {
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    padding-bottom: 10px;
+    background-image: linear-gradient(to right, rgba(1, 68, 1, 0.7),rgba(1, 182, 1, 0.7)), url("imagenes/mesa.png");
+    padding-top: 20px;
+}
+
+.upper .title {
+    width: 100%;
+}
+
+.upper h1 {
+    font-family: 'Roboto', sans-serif;
+    text-shadow: -2px 0px 0px black, 2px 0px 0px black, 0px -2px 0px black, 0px 2px 0px black;
+    width: 50%;
+    color: white;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 10%;
+    font-size: 6vw;
+}
+
+.upper a {
+    width:50%;
+    margin: auto;
+    margin-left: 10%;
+}
+
+.upper img {
+    width: 25%;
+}
+
+.lower {
+    padding-top: 2%;
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 2%;
+    background-image: linear-gradient(to right, rgba(160, 80, 5, 0.7), rgba(212, 139, 2, 0.7)), url("imagenes/madera.png");
+}
+
+
+.lower a {
+    font-family: 'Roboto', sans-serif;
+    text-shadow: -2px 0px 0px rgb(0, 0, 0), 2px 0px 0px rgb(0, 0, 0), 0px -2px 0px rgb(0, 0, 0), 0px 2px 0px rgb(0, 0, 0);
+    width: 33%;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    font-size: 150%;
+    transition: 0.3s;
+}
+
+.lower a:hover {
+    transition: 0.3s;
+    text-shadow: -2px 0px 0px red, 2px 0px 0px red, 0px -2px 0px red, 0px 2px 0px red;
+}
+
+
+
+footer {
+    height: 80px;
+    background-color: rgb(74, 76, 78);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-top: 100px;
+}
+
+footer p {
+    padding-top: 1%;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    padding-left: 8%;
+    padding-right: 8%;
+    text-shadow: -2px 0px 0px rgb(0, 0, 0), 2px 0px 0px rgb(0, 0, 0), 0px -2px 0px rgb(0, 0, 0), 0px 2px 0px rgb(0, 0, 0);
+}
+
+
+footer .name {
+    width: 60%;
+    text-align: right;
 }
