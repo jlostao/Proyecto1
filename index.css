@@ -1,49 +1,45 @@
+*{
+    box-sizing: border-box;
+}
+
 body{
     margin:0;
+    padding:0;
     background-image: url("imagenes/blackboard-texture.jpg");
     user-select: none;
 }
 
+img{
+    width:100%;
+}
 
 .global {
     display:flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 5px;
     font-family: 'Roboto', sans-serif;
 }
 
-.autocenter { 
-    box-sizing: border-box;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 800px;
-    padding-left: 32px;
-    padding-right: 32px;
-    width: 100%;
+.column{
+    flex:25%;
+    padding:0px;
 }
-
-.global .bordes{
-    display:flex;
-    flex-direction: row;
-    background-color: red;
+.column .img-derecha{
+    margin-top: 5%;
+    width: 25%;
+    margin-left: 77%;
 }
-.global .bordes .borde1{
-    background-color: pink;
-    transform: rotate(90deg);
-    margin-top:50%;
-    margin-right: 70%;
-    margin-bottom: 30px;
+.column .img-izquierda{
+    margin-top: 5%;
+    width: 25%;
+    margin-right: 100%;
 }
-.global .bordes .borde2{
-    background-color: red;
-    transform:rotate(90deg);
-    margin-left: 30%;
-    width:20%;
-}
-.global .bordes .texto{
+.column .texto{
     font-family: 'Handlee', cursive;
     color: white;
     margin-top:10%;
-    width:60%;
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 header {
