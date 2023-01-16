@@ -5,8 +5,12 @@
 body{
     margin:0;
     padding:0;
-    background-image: url("imagenes/blackboard-texture.jpg");
+    background-image: linear-gradient(to right, rgba(12, 12, 12, 0.5),rgba(39, 39, 39, 0.5)), url("imagenes/fondo2.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100%;
     user-select: none;
+    overflow-x: hidden;
 }
 
 img{
@@ -20,26 +24,35 @@ img{
     font-family: 'Roboto', sans-serif;
 }
 
+.column .autocenter { 
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
+    padding-left: 32px;
+    padding-right: 32px;
+    width: 100%;
+}
+
 .column{
-    flex:25%;
-    padding:0px;
+    padding:0;
+    margin:0;
 }
 .column .img-derecha{
-    margin-top: 5%;
-    width: 25%;
-    margin-left: 77%;
+    width: 56%;
+    margin-left: 105%;
 }
 .column .img-izquierda{
-    margin-top: 5%;
-    width: 25%;
-    margin-right: 100%;
+    width: 55%;
+    margin:0;
+    
 }
 .column .texto{
     font-family: 'Handlee', cursive;
     color: white;
+    width: 170%;
     margin-top:10%;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-left: 10%;
 }
 
 header {
@@ -130,10 +143,11 @@ footer p {
     padding-left: 8%;
     padding-right: 8%;
     text-shadow: -2px 0px 0px rgb(0, 0, 0), 2px 0px 0px rgb(0, 0, 0), 0px -2px 0px rgb(0, 0, 0), 0px 2px 0px rgb(0, 0, 0);
+    margin-left: 25%;
 }
 
 
 footer .name {
     width: 60%;
-    text-align: right;
+    
 }
