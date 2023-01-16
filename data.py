@@ -50,10 +50,10 @@ cards = {
 }
 
 players = {
-"11115555A" :{"name":"Mario", "human":True, "bank":False, "initialCard":"", "priority":0, "type":40, "bet":4, "points":0, "cards":[], "roundPoints":0},
-"22225555A" :{"name":"Pedro", "human":True, "bank":False, "initialCard":"", "priority":0, "type":60, "bet":4, "points":0, "cards":[], "roundPoints":0},
-"32225555A" :{"name":"Maria", "human":True, "bank":False, "initialCard":"", "priority":0, "type":50, "bet":4, "points":0, "cards":[], "roundPoints":0},
-"42225555A" :{"name":"Ana", "human":True, "bank":False, "initialCard":"", "priority":0, "type":40, "bet":4, "points":0, "cards":[], "roundPoints":0}
+"11115555A" :{"name":"Mario", "human":False, "bank":False, "initialCard":"", "priority":0, "type":40, "bet":0, "points":0, "cards":[], "roundPoints":0},
+"22225555A" :{"name":"Pedro", "human":False, "bank":False, "initialCard":"", "priority":0, "type":60, "bet":0, "points":0, "cards":[], "roundPoints":0},
+"32225555A" :{"name":"Maria", "human":False, "bank":False, "initialCard":"", "priority":0, "type":50, "bet":0, "points":0, "cards":[], "roundPoints":0},
+"42225555A" :{"name":"Ana", "human":False, "bank":False, "initialCard":"", "priority":0, "type":40, "bet":0, "points":0, "cards":[], "roundPoints":0}
 }
 
 game = ["11115555A", "22225555A", "32225555A", "42225555A"]

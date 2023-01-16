@@ -55,7 +55,7 @@ def checkPlayersRange():
 def check2PlayersWithPoints():
     playersalive = 0
     for player in data.game:
-        if data.players[player]["points"] < 0:
+        if data.players[player]["points"] > 0:
             playersalive += 1
     if playersalive >= 2:
         return True
@@ -137,12 +137,48 @@ def setBets():
         data.players[data.game[i]]["bet"] = bets[i]
 
 
-def playGame():
+def standarRound(id):
+    if data.players[id]["type"] == 40:
+        while data.players[id]["roundPoints"] < 5:
+            position = random.randint(0, len(data.deck)-1)
+            card = data.deck[position]
+            del data.deck[position]
+            data.players[id]["cards"].append(card)
+            data.players[id]["roundPoints"] += data.cards[card]["value"]
+    elif data.players[id]["type"] == 50:
+        while data.players[id]["roundPoints"] < 6:
+            position = random.randint(0, len(data.deck)-1)
+            card = data.deck[position]
+            del data.deck[position]
+            data.players[id]["cards"].append(card)
+            data.players[id]["roundPoints"] += data.cards[card]["value"]
+    elif data.players[id]["type"] == 60:
+        while data.players[id]["roundPoints"] < 6.5:
+            position = random.randint(0, len(data.deck)-1)
+            card = data.deck[position]
+            del data.deck[position]
+            data.players[id]["cards"].append(card)
+            data.players[id]["roundPoints"] += data.cards[card]["value"]
+
+
+def humanRound(id):
+    print("human")
+
+
+def playGame(round, deck):
     setGamePriority()
     resetPoints()
+    #while round > 0 and check2PlayersWithPoints():
+    setGameCards(deck)
     setBets()
-    print(data.game)
+    for player in data.game:
+        if data.players[player]["bank"] is False:
+            if data.players[player]["human"] is True:
+                humanRound(player)
+            elif data.players[player]["human"] is False:
+                standarRound(player)
     print(data.players)
+    
     
 
  
