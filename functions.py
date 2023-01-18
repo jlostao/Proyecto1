@@ -2,6 +2,7 @@ import data
 import pyfiglet
 import os
 import random
+import time
 
 
 def menuFunct(bannerText, menuText, menuInput, options):
@@ -22,22 +23,15 @@ def menuFunct(bannerText, menuText, menuInput, options):
 
 
 def setGameCards(deck):
-    gamecards = []
+    data.deck = []
     for card in data.cards:
         if deck == 1:
             if card[0] == "O" or card[0] == "E" or card[0] == "C" or card[0] == "B":
-                gamecards.append(card)
+                data.deck.append(card)
                 
         elif deck == 2:
             if card[0] == "H" or card[0] == "D" or card[0] == "T" or card[0] == "P":
-                gamecards.append(card)
-    if deck == 1:
-        print("\nEstablished Card Deck ESP, Baraja Española")
-    elif deck == 2:
-        print("\nEstablished Card Deck POK, Poker Deck")
-    elif deck == 0:
-        print("\nNo deck selected")
-    return gamecards
+                data.deck.append(card)
     
 
 def resetPoints():
@@ -85,83 +79,75 @@ def setGamePriority():
             data.players[player]["bank"] = True
     
     
+    
 def setBets():
-    bets = []
     for player in data.game:
-        if data.players[player]["type"] == 40:
-            if data.players[player]["points"] <= 5:
-                min = data.players[player]["points"]
+        if data.players[player]["bank"] is False:
+            if data.players[player]["points"] <= 3:
+                data.players[player]["bet"] = data.players[player]["points"]
+            elif (data.players[player]["points"] * data.players[player]["type"]) / 100 <= 3:
+                data.players[player]["bet"] = 3
             else:
-                min = 5
-            if data.players[player]["points"] <= 5:
-                max = data.players[player]["points"]
-            else:
-                if (40*data.players[player]["points"])//100 <= 5:
-                    max = 5
-                else:
-                    max = (40*data.players[player]["points"])//100
-            bets.append(random.randint(min, max))
-        elif data.players[player]["type"] == 50:
-            if data.players[player]["points"] <= 5:
-                min = data.players[player]["points"]
-            else:
-                if (30*data.players[player]["points"])//100 <= 5:
-                    min = 5
-                else:
-                    min = (30*data.players[player]["points"])//100
-            if data.players[player]["points"] <= 5:
-                max = data.players[player]["points"]
-            else:
-                if (60*data.players[player]["points"])//100 <= 5:
-                    max = 5
-                else:
-                    max = (60*data.players[player]["points"])//100
-            bets.append(random.randint(min, max))
-        elif data.players[player]["type"] == 60:
-            if data.players[player]["points"] <= 5:
-                min = data.players[player]["points"]
-            else:
-                if (50*data.players[player]["points"])//100 <= 5:
-                    min = 5
-                else:
-                    min = (50*data.players[player]["points"])//100
-            if data.players[player]["points"] <= 5:
-                max = data.players[player]["points"]
-            else:
-                if (80*data.players[player]["points"])//100 <= 5:
-                    max = 5
-                else:
-                    max = (80*data.players[player]["points"])//100
-            bets.append(random.randint(min, max))
-    for i in range(len(data.game)):
-        data.players[data.game[i]]["bet"] = bets[i]
+                data.players[player]["bet"] = (data.players[player]["points"] * data.players[player]["type"]) / 100
 
 
 def standarRound(id):
-    if data.players[id]["type"] == 40:
-        while data.players[id]["roundPoints"] < 5:
-            position = random.randint(0, len(data.deck)-1)
-            card = data.deck[position]
-            del data.deck[position]
-            data.players[id]["cards"].append(card)
-            data.players[id]["roundPoints"] += data.cards[card]["value"]
-    elif data.players[id]["type"] == 50:
-        while data.players[id]["roundPoints"] < 6:
-            position = random.randint(0, len(data.deck)-1)
-            card = data.deck[position]
-            del data.deck[position]
-            data.players[id]["cards"].append(card)
-            data.players[id]["roundPoints"] += data.cards[card]["value"]
-    elif data.players[id]["type"] == 60:
-        while data.players[id]["roundPoints"] < 6.5:
-            position = random.randint(0, len(data.deck)-1)
-            card = data.deck[position]
-            del data.deck[position]
-            data.players[id]["cards"].append(card)
-            data.players[id]["roundPoints"] += data.cards[card]["value"]
+    while True:
+        position = random.randint(0, len(data.deck) - 1)
+        card = data.deck[position]
+        data.players[id]["cards"].append(card)
+        data.players[id]["roundPoints"] += data.cards[card]["value"]
+        del data.deck[position]
+        above = 0
+        for card in data.deck:
+            if data.cards[card]["value"] + data.players[id]["roundPoints"] > 7.5:
+                above += 1
+        if (above/len(data.deck)) * 100 > data.players[id]["type"]:
+            break
+
 
 
 def humanRound(id):
+    print("human")
+
+
+def bootBankRound(id):
+    while True:
+        position = random.randint(0, len(data.deck) - 1)
+        card = data.deck[position]
+        data.players[id]["cards"].append(card)
+        data.players[id]["roundPoints"] += data.cards[card]["value"]
+        del data.deck[position]
+        wonPoints = 0
+        lostPoints = 0
+        playersPassed = 0
+        for player in data.game:
+            if data.players[player]["bank"] is False:
+                if data.players[player]["roundPoints"] > 7.5:
+                    playersPassed += 1
+                    wonPoints += data.players[player]["bet"]
+                elif data.players[player]["roundPoints"] <= data.players[id]["roundPoints"]:
+                    playersPassed += 1
+                    wonPoints += data.players[player]["bet"]
+                elif data.players[player]["roundPoints"] > data.players[id]["roundPoints"] and data.players[player]["roundPoints"] == 7.5:
+                    lostPoints += (data.players[player]["bet"] * 2)
+                elif data.players[player]["roundPoints"] > data.players[id]["roundPoints"]:
+                    lostPoints += data.players[player]["bet"]
+        pointsDiff = lostPoints - wonPoints
+        aboveCard = 0
+        for card in data.deck:
+            if data.cards[card]["value"] + data.players[id]["roundPoints"] > 7.5:
+                aboveCard += 1
+        if data.players[id]["roundPoints"] > 7.5 or data.players[id]["roundPoints"] == 7.5:
+            break
+        elif playersPassed == len(data.game) - 1:
+            break
+        elif playersPassed > 0 and pointsDiff < data.players[id]["points"] and aboveCard/len(data.deck) * 100 > data.players[id]["type"]:
+            print(aboveCard/len(data.deck) * 100)
+            break
+    
+
+def humanBankRound(id):
     print("human")
 
 
@@ -173,11 +159,12 @@ def playGame(round, deck):
     setBets()
     for player in data.game:
         if data.players[player]["bank"] is False:
-            if data.players[player]["human"] is True:
-                humanRound(player)
-            elif data.players[player]["human"] is False:
-                standarRound(player)
-    print(data.players)
+            standarRound(player)
+    for player in data.game:
+        if data.players[player]["bank"] is True:
+            bootBankRound(player)
+    for player in data.game:
+        print(player, data.players[player]["priority"], data.players[player]["bank"], data.players[player]["points"], data.players[player]["bet"], data.players[player]["cards"], data.players[player]["roundPoints"])
     
     
 

@@ -48,7 +48,13 @@ while True:
             print("Set players")
         elif sel == 2:
             seldeck = functions.menuFunct("Deck Of Cards", "1) ESP - ESP \n2) POK - POK \n0) Go back", "Option: ", [1, 2, 0])
-            data.deck = functions.setGameCards(seldeck)
+            functions.setGameCards(seldeck)
+            if seldeck == 1:
+                print("\nEstablished Card Deck ESP, Baraja Española")
+            elif seldeck == 2:
+                print("\nEstablished Card Deck POK, Poker Deck")
+            elif seldeck == 0:
+                print("\nNo deck selected")
             input("\nEnter to continue\n")
         elif sel == 3:
             print("Rounds") 
