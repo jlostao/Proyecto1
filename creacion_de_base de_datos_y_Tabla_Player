@@ -1,0 +1,13 @@
+drop database if exists 7yMedio;
+
+create database 7yMedio;
+use 7yMedio;
+
+drop table if exists player;
+create table player(
+player_id varchar(25),
+player_name varchar(40),
+player_risk tinyint,
+human tinyint,
+primary key (player_id)
+);
