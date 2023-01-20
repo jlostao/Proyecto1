@@ -50,6 +50,9 @@ players = {
 
 game = ["11115555A", "22225555A", "32225555A", "42225555A"]
 
-
-
 deck = []
+
+printDefault = {"name":"Name".ljust(20), "human":"Human".ljust(20), "priority":"Priority".ljust(20), "type":"Type".ljust(20), "bank":"Bank".ljust(20), 
+                "bet":"Bet".ljust(20), "points":"Points".ljust(20), "cards":"Cards".ljust(20), "roundpoints":"Roundpoints".ljust(20)}
+
+roundPrint = {}

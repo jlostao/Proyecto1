@@ -63,7 +63,7 @@ while True:
             m02 = False
 
     while m03:
-        functions.playGame(5, seldeck)
+        functions.playGame(10, seldeck)
         
         time.sleep(60)
 

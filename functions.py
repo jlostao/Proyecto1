@@ -88,7 +88,7 @@ def setBets():
             elif (data.players[player]["points"] * data.players[player]["type"]) / 100 <= 3:
                 data.players[player]["bet"] = 3
             else:
-                data.players[player]["bet"] = (data.players[player]["points"] * data.players[player]["type"]) / 100
+                data.players[player]["bet"] = int((data.players[player]["points"] * data.players[player]["type"]) / 100)
 
 
 def standarRound(id):
@@ -151,21 +151,150 @@ def humanBankRound(id):
     print("human")
 
 
+def distributionPointAndNewBankCandidates():
+    bankCandidate = []
+    for player in data.game:
+        if data.players[player]["bank"] is True:
+            bankID = player
+        elif data.players[player]["bank"] is False:
+            if data.players[bankID]["roundPoints"] == 7.5:
+                data.players[player]["points"] -= data.players[player]["bet"]
+                data.players[bankID]["points"] += data.players[player]["bet"]
+            elif data.players[player]["roundPoints"] > 7.5 and data.players[bankID]["roundPoints"] < 7.5:
+                data.players[player]["points"] -= data.players[player]["bet"]
+                data.players[bankID]["points"] += data.players[player]["bet"]
+            elif data.players[bankID]["roundPoints"] < 7.5 and data.players[bankID]["roundPoints"] >= data.players[player]["roundPoints"]:
+                data.players[player]["points"] -= data.players[player]["bet"]
+                data.players[bankID]["points"] += data.players[player]["bet"]
+            elif data.players[player]["roundPoints"] == 7.5 and data.players[bankID]["roundPoints"] != 7.5:
+                data.players[bankID]["points"] -= data.players[player]["bet"] * 2
+                data.players[player]["points"] += data.players[player]["bet"] * 2
+                bankCandidate.append(player)
+            elif data.players[player]["roundPoints"] < 7.5 and data.players[player]["roundPoints"] > data.players[bankID]["roundPoints"]:
+                data.players[bankID]["points"] -= data.players[player]["bet"] 
+                data.players[player]["points"] += data.players[player]["bet"] 
+            elif data.players[player]["roundPoints"] < 7.5 and data.players[bankID]["roundPoints"] > 7.5:
+                data.players[bankID]["points"] -= data.players[player]["bet"] 
+                data.players[player]["points"] += data.players[player]["bet"]
+    for player in data.game:
+        if data.players[player]["bank"] is False:
+            if data.players[player]["points"] <= 0:
+                data.game.remove(player)
+    for player in data.game:
+        if data.players[player]["bank"] is True and bankCandidate == [] and data.players[player]["points"] <= 0:
+            data.players[player]["bank"] = False
+            data.game.remove(player)
+            data.players[data.game[0]]["bank"] = True
+    if bankCandidate != []:
+        for player in data.game:
+            if data.players[player]["bank"] is True:
+                data.players[player]["bank"] = False
+        newBank = bankCandidate[random.randint(0, len(bankCandidate) - 1)]
+        data.players[newBank]["bank"] = True
+    
+
+def printStats(id, round):
+    if id == "a":
+        for i in range(len(data.game) - 1, -1, -1):
+            data.roundPrint["name"] += data.players[data.game[i]]["name"].ljust(30)
+            data.roundPrint["human"] += str(data.players[data.game[i]]["human"]).ljust(30)
+            data.roundPrint["priority"] += str(data.players[data.game[i]]["priority"]).ljust(30)
+            data.roundPrint["type"] += str(data.players[data.game[i]]["type"]).ljust(30)
+            data.roundPrint["bank"] += str(data.players[data.game[i]]["bank"]).ljust(30)
+            data.roundPrint["bet"] += str(data.players[data.game[i]]["bet"]).ljust(30)
+            data.roundPrint["points"] += str(data.players[data.game[i]]["points"]).ljust(30)
+    elif id == "b":
+        data.roundPrint = {"name":"Name".ljust(20), "human":"Human".ljust(20), "priority":"Priority".ljust(20), "type":"Type".ljust(20), "bank":"Bank".ljust(20), 
+                           "bet":"Bet".ljust(20), "points":"Points".ljust(20), "cards":"Cards".ljust(20), "roundpoints":"Roundpoints".ljust(20)}
+        for i in range(len(data.game) - 1, -1, -1):
+            data.roundPrint["name"] += data.players[data.game[i]]["name"].ljust(30)
+            data.roundPrint["human"] += str(data.players[data.game[i]]["human"]).ljust(30)
+            data.roundPrint["priority"] += str(data.players[data.game[i]]["priority"]).ljust(30)
+            data.roundPrint["type"] += str(data.players[data.game[i]]["type"]).ljust(30)
+            data.roundPrint["bank"] += str(data.players[data.game[i]]["bank"]).ljust(30)
+            data.roundPrint["bet"] += str(data.players[data.game[i]]["bet"]).ljust(30)
+            data.roundPrint["points"] += str(data.players[data.game[i]]["points"]).ljust(30)
+            cards = ""
+            for card in data.players[data.game[i]]["cards"]:
+                cards += card + ";"
+            data.roundPrint["cards"] += cards.ljust(30)
+            data.roundPrint["roundpoints"] += str(data.players[data.game[i]]["roundPoints"]).ljust(30)
+        print("*"*50 + "\n")
+        print(data.roundPrint["name"])
+        print(data.roundPrint["human"])
+        print(data.roundPrint["priority"])
+        print(data.roundPrint["type"])
+        print(data.roundPrint["bank"])
+        print(data.roundPrint["bet"])
+        print(data.roundPrint["points"])
+        print(data.roundPrint["cards"])
+        print(data.roundPrint["roundpoints"])
+        input("\nEnter to continue\n")
+    else:
+        cards = ""
+        for card in data.players[id]["cards"]:
+            cards += card + ";"
+        data.roundPrint["cards"] += cards.ljust(30)
+        data.roundPrint["roundpoints"] += str(data.players[id]["roundPoints"]).ljust(30)
+        print("*"*20 + " Round " + str(round) + ", Turn of " + data.players[id]["name"] + " " + "*"*20 + "\n")
+        print(data.roundPrint["name"])
+        print(data.roundPrint["human"])
+        print(data.roundPrint["priority"])
+        print(data.roundPrint["type"])
+        print(data.roundPrint["bank"])
+        print(data.roundPrint["bet"])
+        print(data.roundPrint["points"])
+        print(data.roundPrint["cards"])
+        print(data.roundPrint["roundpoints"])
+        input("\nEnter to continue\n")
+    
+
+def resetStats():
+    for player in data.game:
+        data.players[player]["cards"] = []
+        data.players[player]["roundPoints"] = 0
+
+
+def orderPlayersByPriority():
+    print(data.game)
+    for player in data.game:
+        if data.players[player]["bank"] is True:
+            bank = [player]
+            data.game.remove(player)
+    for i in range(0, len(data.game)):
+        a = 1
+        for j in range(0, len(data.game)-(i+1)):
+            if data.players[data.game[j]]["priority"] < data.players[data.game[a]]["priority"]:
+                data.game[j], data.game[a] = data.game[a], data.game[j]
+            a += 1
+    players = bank + data.game
+    data.game = players
+    
+
 def playGame(round, deck):
     setGamePriority()
     resetPoints()
-    #while round > 0 and check2PlayersWithPoints():
-    setGameCards(deck)
-    setBets()
-    for player in data.game:
-        if data.players[player]["bank"] is False:
-            standarRound(player)
-    for player in data.game:
-        if data.players[player]["bank"] is True:
-            bootBankRound(player)
-    for player in data.game:
-        print(player, data.players[player]["priority"], data.players[player]["bank"], data.players[player]["points"], data.players[player]["bet"], data.players[player]["cards"], data.players[player]["roundPoints"])
-    
+    currentround = 1
+    while round > 0 and check2PlayersWithPoints():
+        data.roundPrint = {"name":"Name".ljust(20), "human":"Human".ljust(20), "priority":"Priority".ljust(20), "type":"Type".ljust(20), "bank":"Bank".ljust(20), 
+                           "bet":"Bet".ljust(20), "points":"Points".ljust(20), "cards":"Cards".ljust(20), "roundpoints":"Roundpoints".ljust(20)}
+        setGameCards(deck)
+        setBets()
+        printStats("a", currentround)
+        for i in range(len(data.game) - 1, -1, -1):
+            if data.players[data.game[i]]["bank"] is False:
+                standarRound(data.game[i])
+                printStats(data.game[i], currentround)
+        for player in data.game:
+            if data.players[player]["bank"] is True:
+                bootBankRound(player)
+                printStats(player, currentround)
+        distributionPointAndNewBankCandidates()
+        printStats("b", round)
+        orderPlayersByPriority()
+        resetStats()
+        currentround += 1
+        round -= 1
     
 
  
