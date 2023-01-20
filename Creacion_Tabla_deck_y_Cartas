@@ -1,0 +1,18 @@
+drop table if exists deck;
+create table deck(
+deck_id char(3) not null,
+deck_name varchar(25),
+primary key (deck_id)
+);
+
+drop table if exists card;
+create table card(
+card_id char(3) ,
+card_name varchar(25),
+card_value decimal(3,1),
+card_priority tinyint,
+card_real_value tinyint,
+deck_id char(3) not null,
+primary key (card_id,deck_id),
+constraint card_deck_deck_id foreign key (deck_id) references deck(deck_id) 
+);
