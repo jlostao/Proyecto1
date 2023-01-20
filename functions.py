@@ -143,7 +143,6 @@ def bootBankRound(id):
         elif playersPassed == len(data.game) - 1:
             break
         elif playersPassed > 0 and pointsDiff < data.players[id]["points"] and aboveCard/len(data.deck) * 100 > data.players[id]["type"]:
-            print(aboveCard/len(data.deck) * 100)
             break
     
 
@@ -181,19 +180,25 @@ def distributionPointAndNewBankCandidates():
             if data.players[player]["points"] <= 0:
                 data.game.remove(player)
     for player in data.game:
-        if data.players[player]["bank"] is True and bankCandidate == [] and data.players[player]["points"] <= 0:
+        if data.players[player]["bank"] is False:
+            if data.players[player]["points"] <= 0:
+                data.game.remove(player)
+    for player in data.game:
+        if data.players[player]["bank"] is True and data.players[player]["points"] <= 0:
             data.players[player]["bank"] = False
             data.game.remove(player)
             data.players[data.game[0]]["bank"] = True
+            data.players[data.game[0]]["bet"] = 0
     if bankCandidate != []:
         for player in data.game:
             if data.players[player]["bank"] is True:
                 data.players[player]["bank"] = False
         newBank = bankCandidate[random.randint(0, len(bankCandidate) - 1)]
         data.players[newBank]["bank"] = True
+        data.players[newBank]["bet"] = 0
     
 
-def printStats(id, round):
+def printStats(id, curround):
     if id == "a":
         for i in range(len(data.game) - 1, -1, -1):
             data.roundPrint["name"] += data.players[data.game[i]]["name"].ljust(30)
@@ -219,7 +224,7 @@ def printStats(id, round):
                 cards += card + ";"
             data.roundPrint["cards"] += cards.ljust(30)
             data.roundPrint["roundpoints"] += str(data.players[data.game[i]]["roundPoints"]).ljust(30)
-        print("*"*50 + "\n")
+        print("*"*25 + " Round results " + "*"*25 + "\n")
         print(data.roundPrint["name"])
         print(data.roundPrint["human"])
         print(data.roundPrint["priority"])
@@ -236,7 +241,7 @@ def printStats(id, round):
             cards += card + ";"
         data.roundPrint["cards"] += cards.ljust(30)
         data.roundPrint["roundpoints"] += str(data.players[id]["roundPoints"]).ljust(30)
-        print("*"*20 + " Round " + str(round) + ", Turn of " + data.players[id]["name"] + " " + "*"*20 + "\n")
+        print("*"*25 + " Round " + str(curround) + ", Turn of " + data.players[id]["name"] + " " + "*"*25 + "\n")
         print(data.roundPrint["name"])
         print(data.roundPrint["human"])
         print(data.roundPrint["priority"])
@@ -256,7 +261,6 @@ def resetStats():
 
 
 def orderPlayersByPriority():
-    print(data.game)
     for player in data.game:
         if data.players[player]["bank"] is True:
             bank = [player]
@@ -270,6 +274,30 @@ def orderPlayersByPriority():
     players = bank + data.game
     data.game = players
     
+
+def printWinner(curround):
+    if check2PlayersWithPoints():
+        for i in range(0, len(data.game)):
+            a = 1
+            for j in range(0, len(data.game)-(i+1)):
+                if data.players[data.game[j]]["points"] == data.players[data.game[a]]["points"]:
+                    if data.players[data.game[j]]["priority"] < data.players[data.game[a]]["priority"]:
+                        data.game[j], data.game[a] = data.game[a], data.game[j]
+                else:
+                    if data.players[data.game[j]]["points"] < data.players[data.game[a]]["points"]:
+                        data.game[j], data.game[a] = data.game[a], data.game[j]
+                a += 1
+        width = os.get_terminal_size().columns
+        print("*" * width + "\n")
+        print(pyfiglet.figlet_format("Game Over"))
+        print("\n" + "*" * width + "\n")
+        print("The winner is " + data.game[0] + " - " + data.players[data.game[0]]["name"] + ", in " + str(curround - 1) + 
+              " rounds, with " + str(data.players[data.game[0]]["points"]) + " points")
+    else:
+        print("The winner is " + data.game[0] + " - " + data.players[data.game[0]]["name"] + ", in " + str(curround - 1) + 
+              " rounds, with " + str(data.players[data.game[0]]["points"]) + " points")
+    input("\nEnter to continue\n")
+
 
 def playGame(round, deck):
     setGamePriority()
@@ -295,6 +323,7 @@ def playGame(round, deck):
         resetStats()
         currentround += 1
         round -= 1
+    printWinner(currentround)
     
 
  
