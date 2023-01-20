@@ -1,0 +1,39 @@
+drop table if exists cardgame;
+create table cardgame(
+cardgame_id int auto_increment,
+players tinyint,
+rounds tinyint,
+start_hour datetime,
+end_hour datetime,
+deck_id char(3),
+primary key (cardgame_id),
+constraint cardgame_deck_deck_id foreign key (deck_id) references deck(deck_id)
+);
+
+drop table if exists player_game;
+create table player_game(
+cardgame_id int auto_increment,
+player_id varchar(25),
+initial_card_id char(3),
+starting_points tinyint,
+ending_points tinyint,
+primary key (cardgame_id,player_id),
+constraint player_game_cardgame_cardgame_id foreign key (cardgame_id) references cardgame(cardgame_id),
+constraint player_game_player_player_id foreign key (player_id) references player(player_id),
+constraint plaer_game_card_initial_card_id foreign key (initial_card_id) references card(card_id)
+);
+
+drop table if exists player_game_round;
+create table player_game_round(
+cardgame_id int auto_increment,
+round_num tinyint,
+player_id varchar(25),
+is_bank tinyint(1),
+bet_points tinyint,
+cards_value decimal(4,1),
+starting_round_points tinyint,
+ending_round_points tinyint,
+primary key (round_num,cardgame_id,player_id),
+constraint player_game_round_player_game_cardgame_id foreign key (cardgame_id) references player_game(cardgame_id),
+constraint player_game_round_player_game_player_id foreign key (player_id) references player_game(player_id)
+);
