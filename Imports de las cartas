@@ -1,0 +1,169 @@
+
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('O01',1,1,1,'1 de oros',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('O02',1,2,2,'2 de oros',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('O03',1,3,3,'3 de oros',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('O04',1,4,4,'4 de oros',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('O05',1,5,5,'5 de oros',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('O06',1,6,6,'6 de oros',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('O07',1,7,7,'7 de oros',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('O10',1,0.5,10,'10 de oros',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('O11',1,0.5,11,'11 de oros',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('O12',1,0.5,12,'12 de oros',4);
+
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('C01',1,1,1,'1 de copas',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('C02',1,2,2,'2 de copas',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('C03',1,3,3,'3 de copas',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('C04',1,4,4,'4 de copas',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('C05',1,5,5,'5 de copas',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('C06',1,6,6,'6 de copas',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('C07',1,7,7,'7 de copas',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('C10',1,0.5,10,'10 de copas',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('C11',1,0.5,11,'11 de copas',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('C12',1,0.5,12,'12 de copas',3);
+
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('E01',1,1,1,'1 de espadas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('E02',1,2,2,'2 de espadas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('E03',1,3,3,'3 de espadas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('E04',1,4,4,'4 de espadas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('E05',1,5,5,'5 de espadas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('E06',1,6,6,'6 de espadas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('E07',1,7,7,'7 de espadas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('E10',1,0.5,10,'10 de espadas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('E11',1,0.5,11,'11 de espadas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('E12',1,0.5,12,'12 de espadas',2);
+
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('B01',1,1,1,'1 de bastos',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('B02',1,2,2,'2 de bastos',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('B03',1,3,3,'3 de bastos',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('B04',1,4,4,'4 de bastos',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('B05',1,5,5,'5 de bastos',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('B06',1,6,6,'6 de bastos',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('B07',1,7,7,'7 de bastos',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('B10',1,0.5,10,'10 de bastos',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('B11',1,0.5,11,'11 de bastos',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('B12',1,0.5,12,'12 de bastos',1);
+
+#prioridad diamante,corazon,picas,trebol
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('D01',2,1,1,'1 de diamantes',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('D02',2,2,2,'2 de diamantes',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('D03',2,3,3,'3 de diamantes',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('D04',2,4,4,'4 de diamantes',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('D05',2,5,5,'5 de diamantes',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('D06',2,6,6,'6 de diamantes',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('D07',2,7,7,'7 de diamantes',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('D10',2,0.5,10,'10 de diamantes',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('D11',2,0.5,11,'11 de diamantes',4);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('D12',2,0.5,12,'12 de diamantes',4);
+
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('H01',2,1,1,'1 de corazones',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('H02',2,2,2,'2 de corazones',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('H03',2,3,3,'3 de corazones',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('H04',2,4,4,'4 de corazones',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('H05',2,5,5,'5 de corazones',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('H06',2,6,6,'6 de corazones',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('H07',2,7,7,'7 de corazones',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('H10',2,0.5,10,'10 de corazones',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('H11',2,0.5,11,'11 de corazones',3);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('H12',2,0.5,12,'12 de corazones',3);
+
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('P01',2,1,1,'1 de picas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('P02',2,2,2,'2 de picas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('P03',2,3,3,'3 de picas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('P04',2,4,4,'4 de picas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('P05',2,5,5,'5 de picas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('P06',2,6,6,'6 de picas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('P07',2,7,7,'7 de picas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('P10',2,0.5,10,'10 de picas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('P11',2,0.5,11,'11 de picas',2);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('P12',2,0.5,12,'12 de picas',2);
+
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('T01',2,1,1,'1 de treboles',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('T02',2,2,2,'2 de treboles',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('T03',2,3,3,'3 de treboles',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('T04',2,4,4,'4 de treboles',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('T05',2,5,5,'5 de treboles',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('T06',2,6,6,'6 de treboles',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('T07',2,7,7,'7 de treboles',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('T10',2,0.5,10,'10 de treboles',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('T11',2,0.5,11,'11 de treboles',1);
+insert into card (card_id,deck_id,card_value,card_real_value,card_name,card_priority)
+values('T12',2,0.5,12,'12 de treboles',1);
