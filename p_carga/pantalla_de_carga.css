@@ -10,6 +10,17 @@ body{
     overflow-y: hidden;
 }
 
+@media only screen and (max-width:768px) {
+    body{
+        background-image: url("../imagenes/fondo_movil.png");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100%;
+        user-select: none;
+        overflow-x: hidden;
+    }
+}
+
 .autocenter { 
     box-sizing: border-box;
     margin-left: auto;
@@ -23,3 +34,4 @@ body{
 .animacion{
     margin-top: 11%;
 }
+

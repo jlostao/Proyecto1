@@ -28,6 +28,12 @@ img{
     width:40%;
 }
 
+@media only screen and (max-width:768px){
+    img{
+        width: 100%;
+    }
+}
+
 h3{
     color:white;
     font-family: 'Handlee', cursive;
@@ -55,6 +61,7 @@ h3{
         flex-direction: column;
         padding: 5px;
         font-family: 'Roboto', sans-serif;
+        margin-left: 40%;
     }
 }
 .column{
@@ -84,7 +91,7 @@ h3{
     .column .texto{
         font-family: 'Handlee', cursive;
         color: white;
-        width: 70%;
+        width: 130%;
         margin-top:10%;
         text-shadow: 2px 2px black;
         font-size: 130%;
@@ -111,6 +118,7 @@ header {
     padding-top: 20px;
 }
 
+
 .upper .title {
     width: 100%;
 }
@@ -135,6 +143,8 @@ header {
 .upper img {
     width: 25%;
 }
+
+
 
 .lower {
     padding-top: 2%;
