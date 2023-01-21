@@ -9,9 +9,14 @@ m03 = False
 m04 = False
 m05 = False
 
+rounds = 5
+seldeck = 0
+print(seldeck)
+
 while True:
     while m00:
         sel = functions.menuFunct("Siete y medio", "1) Add/Remove/Show Players \n2) Settings \n3) Play Game \n4) Ranking \n5) Reports \n6) Exit", "Option: ", [1, 2, 3, 4, 5, 6])
+        print("\n")
         if sel == 1:
             m01 = True
             m00 = False
@@ -19,8 +24,16 @@ while True:
             m02 = True
             m00 = False
         elif sel == 3:
-            m03 = True
-            m00 = False
+            if len(data.game) < 2 or len(data.game) > 6:
+                print("Set the players that compose the game first.")
+                input("\nEnter to continue\n")
+            else:
+                if seldeck == 0:
+                    print("\nSelect a deck of cards first")
+                    input("\nEnter to continue\n")
+                else:
+                    m03 = True
+                    m00 = False
         elif sel == 4:
             m04 = True
             m00 = False
@@ -57,13 +70,26 @@ while True:
                 print("\nNo deck selected")
             input("\nEnter to continue\n")
         elif sel == 3:
-            print("Rounds") 
+            while True:
+                rounds = input("Max Rounds: ")
+                if rounds.isdigit() is False:
+                    print("Please, only enter numbers")
+                    input("\nPress enter to continue\n")
+                elif rounds.isdigit():
+                    rounds = int(rounds)
+                    if rounds <= 0:
+                        print("Please, enter only positive numbers")
+                        input("\nPress enter to continue\n")
+                    elif rounds > 0:
+                        print("Established max rounds to " + str(rounds))
+                        input("\nPress enter to continue\n")
+                        break
         elif sel == 4:
             m00 = True
             m02 = False
 
     while m03:
-        functions.playGame(10, seldeck)
+        functions.playGame(rounds, seldeck)
         m00 = True
         m03 = False
 

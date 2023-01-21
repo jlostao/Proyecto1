@@ -106,9 +106,65 @@ def standarRound(id):
             break
 
 
+def humanRound(id, round):
+    while True and data.players[id]["roundPoints"] < 7.5:
+        sel = menuFunct("Turn of " + data.players[id]["name"], "1)View Stats \n2)View Game Stats \n3)Set Bet \n4)Order Card \n5)Automatic Play \n6)Stand", "Option: ", [1,2,3,4,5,6])
+        if sel == 1:
+            width = os.get_terminal_size().columns
+            print("*" * width + "\n")
+            print(pyfiglet.figlet_format("Player Stats"))
+            print("\n" + "*" * width + "\n")
+            print("Name".ljust(14) + data.players[id]["name"] + "\nType".ljust(15) + str(data.players[id]["type"]) + "\nHuman".ljust(15) + str(data.players[id]["human"]) + 
+                  "\nBank".ljust(15) + str(data.players[id]["bank"]) + "\nInitialCard".ljust(15) + data.players[id]["initialCard"] + "\nPriority".ljust(15) + str(data.players[id]["priority"]) + 
+                  "\nBet".ljust(15) + str(data.players[id]["bet"]) + "\nPoints".ljust(15) + str(data.players[id]["points"]) + "\nCards".ljust(15) + str(data.players[id]["cards"]) + "\nRoundPoints".ljust(15) + str(data.players[id]["roundPoints"]))
+            input("\nEnter to continue\n")
+        elif sel == 2:
+            printStats(id, round, True)
+        elif sel == 3:
+            while True:
+                newBet = input("Set the new bet: ")
+                if newBet.isdigit():
+                    newBet = int(newBet)
+                    if newBet >= 3 and newBet <= data.players[id]["points"]:
+                        data.players[id]["bet"] = newBet
+                        input("\nEnter to continue\n")
+                        break
+                    else:
+                        print("The Bet range has to be between 3 and the max points of the user.")
+                else:
+                    print("The bet value must be an intenger number.")
+                input("\nEnter to continue\n")
+        elif sel == 4:
+            if len(data.players[id]["cards"]) == 0:
+                position = random.randint(0, len(data.deck) - 1)
+                card = data.deck[position]
+                data.players[id]["cards"].append(card)
+                data.players[id]["roundPoints"] += data.cards[card]["value"]
+                del data.deck[position]
+                print("The new card is " + card + "\nNow you have " + str(data.players[id]["roundPoints"]) + " points")
+                input("\nEnter to continue\n")
+            else:
+                above = 0
+                for card in data.deck:
+                    if data.cards[card]["value"] + data.players[id]["roundPoints"] > 7.5:
+                        above += 1
+                exceedChance = (above/len(data.deck) * 100)
+                print("Chance of exceed 7.5: " + str(exceedChance) + "%")
+                ordercard = input("Are you sure you want to order another card? Y/y = yes | Other key = no: ")
+                if ordercard.lower() == "y":
+                    position = random.randint(0, len(data.deck) - 1)
+                    card = data.deck[position]
+                    data.players[id]["cards"].append(card)
+                    data.players[id]["roundPoints"] += data.cards[card]["value"]
+                    del data.deck[position]
+                    print("The new card is " + card + "\nNow you have " + str(data.players[id]["roundPoints"]) + " points")
+                    input("\nEnter to continue\n")
+        elif sel == 5:
+            standarRound(id)
+            break
+        elif sel == 6:
+            break
 
-def humanRound(id):
-    print("human")
 
 
 def bootBankRound(id):
@@ -146,8 +202,52 @@ def bootBankRound(id):
             break
     
 
-def humanBankRound(id):
-    print("human")
+def humanBankRound(id, round):
+    while True and data.players[id]["roundPoints"] < 7.5:
+        sel = menuFunct("Turn of " + data.players[id]["name"], "1)View Stats \n2)View Game Stats \n3)Set Bet \n4)Order Card \n5)Automatic Play \n6)Stand", "Option: ", [1,2,3,4,5,6])
+        if sel == 1:
+            width = os.get_terminal_size().columns
+            print("*" * width + "\n")
+            print(pyfiglet.figlet_format("Player Stats"))
+            print("\n" + "*" * width + "\n")
+            print("Name".ljust(14) + data.players[id]["name"] + "\nType".ljust(15) + str(data.players[id]["type"]) + "\nHuman".ljust(15) + str(data.players[id]["human"]) + 
+                  "\nBank".ljust(15) + str(data.players[id]["bank"]) + "\nInitialCard".ljust(15) + data.players[id]["initialCard"] + "\nPriority".ljust(15) + str(data.players[id]["priority"]) + 
+                  "\nBet".ljust(15) + str(data.players[id]["bet"]) + "\nPoints".ljust(15) + str(data.players[id]["points"]) + "\nCards".ljust(15) + str(data.players[id]["cards"]) + "\nRoundPoints".ljust(15) + str(data.players[id]["roundPoints"]))
+            input("\nEnter to continue\n")
+        elif sel == 2:
+            printStats(id, round, True)
+        elif sel == 3:
+            print("The Bank is not allowed to bet")
+        elif sel == 4:
+            if len(data.players[id]["cards"]) == 0:
+                position = random.randint(0, len(data.deck) - 1)
+                card = data.deck[position]
+                data.players[id]["cards"].append(card)
+                data.players[id]["roundPoints"] += data.cards[card]["value"]
+                del data.deck[position]
+                print("The new card is " + card + "\nNow you have " + str(data.players[id]["roundPoints"]) + " points")
+                input("\nEnter to continue\n")
+            else:
+                above = 0
+                for card in data.deck:
+                    if data.cards[card]["value"] + data.players[id]["roundPoints"] > 7.5:
+                        above += 1
+                exceedChance = (above/len(data.deck) * 100)
+                print("Chance of exceed 7.5: " + str(exceedChance) + "%")
+                ordercard = input("Are you sure you want to order another card? Y/y = yes | Other key = no: ")
+                if ordercard.lower() == "y":
+                    position = random.randint(0, len(data.deck) - 1)
+                    card = data.deck[position]
+                    data.players[id]["cards"].append(card)
+                    data.players[id]["roundPoints"] += data.cards[card]["value"]
+                    del data.deck[position]
+                    print("The new card is " + card + "\nNow you have " + str(data.players[id]["roundPoints"]) + " points")
+                    input("\nEnter to continue\n")
+        elif sel == 5:
+            standarRound(id)
+            break
+        elif sel == 6:
+            break
 
 
 def distributionPointAndNewBankCandidates():
@@ -198,8 +298,20 @@ def distributionPointAndNewBankCandidates():
         data.players[newBank]["bet"] = 0
     
 
-def printStats(id, curround):
-    if id == "a":
+def printStats(id, curround, human):
+    if human is True:
+        print("*"*25 + " Round " + str(curround) + ", Turn of " + data.players[id]["name"] + " " + "*"*25 + "\n")
+        print(data.roundPrint["name"])
+        print(data.roundPrint["human"])
+        print(data.roundPrint["priority"])
+        print(data.roundPrint["type"])
+        print(data.roundPrint["bank"])
+        print(data.roundPrint["bet"])
+        print(data.roundPrint["points"])
+        print(data.roundPrint["cards"])
+        print(data.roundPrint["roundpoints"])
+        input("\nEnter to continue\n")
+    elif id == "a":
         for i in range(len(data.game) - 1, -1, -1):
             data.roundPrint["name"] += data.players[data.game[i]]["name"].ljust(30)
             data.roundPrint["human"] += str(data.players[data.game[i]]["human"]).ljust(30)
@@ -308,17 +420,23 @@ def playGame(round, deck):
                            "bet":"Bet".ljust(20), "points":"Points".ljust(20), "cards":"Cards".ljust(20), "roundpoints":"Roundpoints".ljust(20)}
         setGameCards(deck)
         setBets()
-        printStats("a", currentround)
+        printStats("a", currentround, False)
         for i in range(len(data.game) - 1, -1, -1):
             if data.players[data.game[i]]["bank"] is False:
-                standarRound(data.game[i])
-                printStats(data.game[i], currentround)
+                if data.players[data.game[i]]["human"] is True:
+                    humanRound(data.game[i], currentround)
+                elif data.players[data.game[i]]["human"] is False:
+                    standarRound(data.game[i])
+                printStats(data.game[i], currentround, False)
         for player in data.game:
             if data.players[player]["bank"] is True:
-                bootBankRound(player)
-                printStats(player, currentround)
+                if data.players[data.game[i]]["human"] is True:
+                    humanBankRound(data.game[i], currentround)
+                elif data.players[data.game[i]]["human"] is False:
+                    bootBankRound(player)
+                printStats(player, currentround, False)
         distributionPointAndNewBankCandidates()
-        printStats("b", round)
+        printStats("b", round, False)
         orderPlayersByPriority()
         resetStats()
         currentround += 1
