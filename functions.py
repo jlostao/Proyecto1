@@ -4,6 +4,7 @@ import os
 import random
 import pymysql
 import pymysql.cursors
+from datetime import datetime
 
 
 def menuFunct(bannerText, menuText, menuInput, options):
@@ -414,12 +415,40 @@ def printWinner(curround):
 def playGame(round, deck):
     setGamePriority()
     resetPoints()
+    data.cardgame = {}
+    data.player_game = {}
+    data.player_round_game = {}
+    curtime = datetime.now()
+    curtime = curtime.strftime("%Y-%m-%d %H:%M:%S")
+    con = pymysql.connect(host='proyecto-global-gjm.mysql.database.azure.com', user='administrador', password='Pr0jectoGJM', database='7ymedio', port=3306, cursorclass=pymysql.cursors.DictCursor)
+    try:
+        totalcardgame = []
+        with con.cursor() as cur:
+            cur.execute("SELECT cardgame_id FROM cardgame")
+            rows = cur.fetchall()
+            for id in rows:
+                totalcardgame.append(id)
+    finally:
+        con.close()
+    data.cardgame = {"cardgame_id":len(totalcardgame) + 1, "players":len(data.game), "rounds":0, "start_hour":curtime, "end_hour":"", "deck_id":deck}
+    data.player_game[len(totalcardgame) + 1] = {}
+    for player in data.game:
+        data.player_game[len(totalcardgame) + 1][player] = {"initial_card_id":data.players[player]["initialCard"], "starting_points":data.players[player]["points"], "ending_points":0}
+    data.player_round_game[len(totalcardgame) + 1] = {}
+    for i in range(round):
+        data.player_round_game[len(totalcardgame) + 1][i+1] = {}
+        for player in data.game:
+            data.player_round_game[len(totalcardgame) + 1][i+1][player] = {"is_bank":data.players[player]["bank"], "bet_points":0, "starting_round_points":20, "cards_value":0, "ending_round_points":0}
     currentround = 1
     while round > 0 and check2PlayersWithPoints():
         data.roundPrint = {"name":"Name".ljust(20), "human":"Human".ljust(20), "priority":"Priority".ljust(20), "type":"Type".ljust(20), "bank":"Bank".ljust(20), 
                            "bet":"Bet".ljust(20), "points":"Points".ljust(20), "cards":"Cards".ljust(20), "roundpoints":"Roundpoints".ljust(20)}
         setGameCards(deck)
         setBets()
+        for player in data.game:
+            data.player_round_game[len(totalcardgame) + 1][currentround][player]["starting_round_points"] = data.players[player]["points"]
+            data.player_round_game[len(totalcardgame) + 1][currentround][player]["is_bank"] = data.players[player]["bank"]
+            data.player_round_game[len(totalcardgame) + 1][currentround][player]["bet_points"] = data.players[player]["bet"]
         printStats("a", currentround, False)
         for i in range(len(data.game) - 1, -1, -1):
             if data.players[data.game[i]]["bank"] is False:
@@ -437,10 +466,22 @@ def playGame(round, deck):
                 printStats(player, currentround, False)
         distributionPointAndNewBankCandidates()
         printStats("b", round, False)
+        for player in data.game:
+            data.player_round_game[len(totalcardgame) + 1][currentround][player]["cards_value"] = data.players[player]["roundPoints"]
+            data.player_round_game[len(totalcardgame) + 1][currentround][player]["ending_round_points"] = data.players[player]["points"]
         orderPlayersByPriority()
         resetStats()
         currentround += 1
         round -= 1
+    curtime = datetime.now()
+    curtime = curtime.strftime("%Y-%m-%d %H:%M:%S")
+    data.cardgame["rounds"] = currentround -1
+    data.cardgame["end_hour"] = curtime
+    for player in data.game:
+        data.player_game[len(totalcardgame) + 1][player]["ending_points"] = data.players[player]["points"]
+    sendCardgame(data.cardgame)
+    sendPlayer_game(data.player_game)
+    sendPlayer_round_game(data.player_round_game)
     printWinner(currentround)
 
 
@@ -601,11 +642,208 @@ def newBoot():
     print("\n")
         
 
+def printAllPlayers(banner):
+    width = os.get_terminal_size().columns
+    print("*" * width + "\n")
+    print(pyfiglet.figlet_format(banner))
+    print("\n" + "*" * width + "\n")
+    con = pymysql.connect(host='proyecto-global-gjm.mysql.database.azure.com', user='administrador', password='Pr0jectoGJM', database='7ymedio', port=3306, cursorclass=pymysql.cursors.DictCursor)
+    players = {}
+    try:
+        with con.cursor() as cur:
+            cur.execute("SELECT * from player")
+            rows = cur.fetchall()
+            for player in rows:
+                players[player["player_id"]] = {}
+                players[player["player_id"]]["name"] = player["player_name"]
+                players[player["player_id"]]["type"] = player["player_risk"]
+                players[player["player_id"]]["human"] = bool(player["human"])
+    finally:
+        con.close()
+    for player in players:
+        if players[player]["type"] == 30:
+            players[player]["type"] = "Cautious"
+        elif players[player]["type"] == 40:
+            players[player]["type"] = "Moderated"
+        elif players[player]["type"] == 50:
+            players[player]["type"] = "Bold"
+    print("*"*60 + "\nBoot Players" + "\n" + "-"*60 + "\nID".ljust(20) + "Name".ljust(20) + "Type".ljust(20) + "\n" + "-"*60) 
+    for player in players:
+        if players[player]["human"] is False:
+            print(player.ljust(19) + players[player]["name"].ljust(20) + players[player]["type"].ljust(20))
+    print("*"*60 + "\nHuman Players" + "\n" + "-"*60 + "\nID".ljust(20) + "Name".ljust(20) + "Type".ljust(20) + "\n" + "-"*60)
+    for player in players:
+        if players[player]["human"] is True:
+            print(player.ljust(19) + players[player]["name"].ljust(20) + players[player]["type"].ljust(20))
+    print("*"*60 + "\n")
 
 
+def removePlayer():
+    while True:
+        printAllPlayers("Show-Remove Players")
+        sel = input("Option (-id to remove player, -1 to exit): ")
+        con = pymysql.connect(host='proyecto-global-gjm.mysql.database.azure.com', user='administrador', password='Pr0jectoGJM', database='7ymedio', port=3306, cursorclass=pymysql.cursors.DictCursor)
+        players = {}
+        try:
+            with con.cursor() as cur:
+                cur.execute("SELECT * from player")
+                rows = cur.fetchall()
+                for player in rows:
+                    players[player["player_id"]] = {}
+        finally:
+            con.close()
+        if sel == "-1":
+            print("\n")
+            break
+        elif sel[0] == "-" and len(sel) == 10:
+            exist = False
+            for player in players:
+                if player == sel[1:]:
+                    exist = True
+            if exist:
+                con = pymysql.connect(host='proyecto-global-gjm.mysql.database.azure.com', user='administrador', password='Pr0jectoGJM', database='7ymedio', port=3306, cursorclass=pymysql.cursors.DictCursor)
+                players = {}
+                try:
+                    with con.cursor() as cur:
+                        cur.execute("DELETE FROM player WHERE player_id = %s", (sel[1:]))
+                        cur.execute("DELETE FROM player_game_round WHERE player_id = %s", (sel[1:]))
+                        cur.execute("DELETE FROM player_game WHERE player_id = %s", (sel[1:]))
+                        con.commit()
+                        print("\nPlayer deleted")
+                        input("\nEnter to continue\n") 
+                finally:
+                    con.close()
+            else:
+                print("\nInvalid Option")
+                input("\nEnter to continue\n") 
+        else:
+            print("\nInvalid Option")
+            input("\nEnter to continue\n")
 
-    
 
+def setGamePlayer():
+    while True:
+        printAllPlayers("Set Game Players")
+        sel = input("Option (-id to remove player, -1 to exit): ")
+        con = pymysql.connect(host='proyecto-global-gjm.mysql.database.azure.com', user='administrador', password='Pr0jectoGJM', database='7ymedio', port=3306, cursorclass=pymysql.cursors.DictCursor)
+        players = {}
+        try:
+            with con.cursor() as cur:
+                cur.execute("SELECT * from player")
+                rows = cur.fetchall()
+                for player in rows:
+                    players[player["player_id"]] = {}
+        finally:
+            con.close()
+        if sel == "-1":
+            print("\n")
+            break
+        elif sel == "" or len(sel) < 9:
+            print("\nInvalid Option")
+            input("\nEnter to continue\n") 
+        elif sel[0] != "-" and len(sel) == 9:
+            exist = False
+            for player in players:
+                if player == sel:
+                    exist = True
+            repeat = False
+            for player in data.game:
+                if player == sel:
+                    repeat = True
+            if exist and repeat is False:
+                con = pymysql.connect(host='proyecto-global-gjm.mysql.database.azure.com', user='administrador', password='Pr0jectoGJM', database='7ymedio', port=3306, cursorclass=pymysql.cursors.DictCursor)
+                allPlayers = {}
+                try:
+                    with con.cursor() as cur:
+                        cur.execute("SELECT * FROM player")
+                        rows = cur.fetchall()
+                        for player in rows:
+                            allPlayers[player["player_id"]] = {}
+                            allPlayers[player["player_id"]]["name"] = player["player_name"]
+                            allPlayers[player["player_id"]]["type"] = player["player_risk"]
+                            allPlayers[player["player_id"]]["human"] = player["human"]
+                        data.players[sel] = {}
+                        data.players[sel]["name"] = allPlayers[sel]["name"]
+                        data.players[sel]["human"] = bool(allPlayers[sel]["human"])
+                        data.players[sel]["bank"] = False
+                        data.players[sel]["initialCard"] = ""
+                        data.players[sel]["priority"] = 0
+                        data.players[sel]["type"] = allPlayers[sel]["type"]
+                        data.players[sel]["bet"] = 0
+                        data.players[sel]["points"] = 0
+                        data.players[sel]["cards"] = []
+                        data.players[sel]["roundPoints"] = 0
+                        data.game.append(sel) 
+                        print("\n" + "*"*20 + "Actual Players in Game" + "*"*20)
+                        for player in data.game:
+                            if data.players[player]["human"] is True:
+                                print(player.ljust(15) + data.players[player]["name"].ljust(15) + "True".ljust(15) + str(data.players[player]["type"]).ljust(15))
+                            elif data.players[player]["human"] is False:
+                                print(player.ljust(15) + data.players[player]["name"].ljust(15) + "False".ljust(15) + str(data.players[player]["type"]).ljust(15))
+                        input("\nEnter to continue\n")
+                finally:
+                    con.close()
+            else:
+                print("\nInvalid Option")
+                input("\nEnter to continue\n") 
+        elif sel[0] == "-" and len(sel) == 10:
+            exist = False
+            for player in data.game:
+                if player == sel[1:]:
+                    exist = True
+            if exist:
+                data.players.pop(sel[1:])
+                data.game.remove(sel[1:])
+                print("\n" + "*"*20 + "Actual Players in Game" + "*"*20)
+                for player in data.game:
+                    if data.players[player]["human"] is True:
+                        print(player.ljust(15) + data.players[player]["name"].ljust(15) + "True".ljust(15) + str(data.players[player]["type"]).ljust(15))
+                    elif data.players[player]["human"] is False:
+                        print(player.ljust(15) + data.players[player]["name"].ljust(15) + "False".ljust(15) + str(data.players[player]["type"]).ljust(15))
+                input("\nEnter to continue\n")
+            else:
+                print("\nInvalid Option")
+                input("\nEnter to continue\n")
+        else:
+            print("\nInvalid Option")
+            input("\nEnter to continue\n")
+        
+
+def sendCardgame(cardgame):
+    con = pymysql.connect(host='proyecto-global-gjm.mysql.database.azure.com', user='administrador', password='Pr0jectoGJM', database='7ymedio', port=3306, cursorclass=pymysql.cursors.DictCursor)
+    try:
+        with con.cursor() as cur:
+            cur.execute('INSERT INTO cardgame VALUES (%s, %s, %s, %s, %s, %s)', (cardgame["cardgame_id"], cardgame["players"], cardgame["rounds"], cardgame["start_hour"], cardgame["end_hour"], cardgame["deck_id"]))
+            con.commit()
+    finally:
+        con.close()
+
+
+def sendPlayer_game(player_game):
+    gameid = list(player_game.keys())[0]
+    for player in player_game[gameid]:
+        playerStats = player_game[gameid][player]
+        con = pymysql.connect(host='proyecto-global-gjm.mysql.database.azure.com', user='administrador', password='Pr0jectoGJM', database='7ymedio', port=3306, cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with con.cursor() as cur:
+                cur.execute('INSERT INTO player_game VALUES (%s, %s, %s, %s, %s)', (gameid, player, playerStats["initial_card_id"], playerStats["starting_points"], playerStats["ending_points"]))
+                con.commit()
+        finally:
+            con.close()
+
+
+def sendPlayer_round_game(player_round_game):
+    gameid = list(player_round_game.keys())[0]
+    for round in player_round_game[gameid]:
+        for player in player_round_game[gameid][round]:
+            playerStats = player_round_game[gameid][round][player]
+            con = pymysql.connect(host='proyecto-global-gjm.mysql.database.azure.com', user='administrador', password='Pr0jectoGJM', database='7ymedio', port=3306, cursorclass=pymysql.cursors.DictCursor)
+            try:
+                with con.cursor() as cur:
+                    cur.execute('INSERT INTO player_game_round VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', (gameid, round, player, playerStats["is_bank"], playerStats["bet_points"], playerStats["cards_value"], playerStats["starting_round_points"], playerStats["ending_round_points"]))
+                    con.commit()
+            finally:
+                con.close()
 
 
 

@@ -24,7 +24,7 @@ while True:
             m00 = False
         elif sel == 3:
             if len(data.game) < 2 or len(data.game) > 6:
-                print("Set the players that compose the game first.")
+                print("Set the players that compose the game first (Min 2 - Max 6)")
                 input("\nEnter to continue\n")
             else:
                 if seldeck == 0:
@@ -49,7 +49,7 @@ while True:
         elif sel == 2:
             functions.newBoot()
         elif sel == 3:
-            print("Show/Remove Players")
+            functions.removePlayer()
         elif sel == 4:
             m00 = True
             m01 = False
@@ -57,7 +57,7 @@ while True:
     while m02:
         sel = functions.menuFunct("Settings", "1) Set Game Players \n2) Set Card's Deck \n3) Set Max Rounds (Default 5 Rounds) \n4) Go back", "Option: ", [1, 2, 3, 4])
         if sel == 1:
-            print("Set players")
+            functions.setGamePlayer()
         elif sel == 2:
             seldeck = functions.menuFunct("Deck Of Cards", "1) ESP - ESP \n2) POK - POK \n0) Go back", "Option: ", [1, 2, 0])
             functions.setGameCards(seldeck)
