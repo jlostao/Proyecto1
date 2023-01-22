@@ -11,7 +11,6 @@ m05 = False
 
 rounds = 5
 seldeck = 0
-print(seldeck)
 
 while True:
     while m00:
@@ -29,7 +28,7 @@ while True:
                 input("\nEnter to continue\n")
             else:
                 if seldeck == 0:
-                    print("\nSelect a deck of cards first")
+                    print("Select a deck of cards first")
                     input("\nEnter to continue\n")
                 else:
                     m03 = True
@@ -46,9 +45,9 @@ while True:
     while m01:
         sel = functions.menuFunct("BBDD Players", "1) New Human Player \n2) New Boot \n3) Show/Remove Players \n4) Go back", "Option: ", [1, 2, 3, 4])
         if sel == 1:
-            print("New human")
+            functions.newHuman()
         elif sel == 2:
-            print("New boot")
+            functions.newBoot()
         elif sel == 3:
             print("Show/Remove Players")
         elif sel == 4:

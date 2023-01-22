@@ -2,7 +2,8 @@ import data
 import pyfiglet
 import os
 import random
-import time
+import pymysql
+import pymysql.cursors
 
 
 def menuFunct(bannerText, menuText, menuInput, options):
@@ -164,7 +165,6 @@ def humanRound(id, round):
             break
         elif sel == 6:
             break
-
 
 
 def bootBankRound(id):
@@ -442,6 +442,171 @@ def playGame(round, deck):
         currentround += 1
         round -= 1
     printWinner(currentround)
+
+
+def allPlayersID():
+    playersID = []
+    con = pymysql.connect(host='proyecto-global-gjm.mysql.database.azure.com', user='administrador', password='Pr0jectoGJM', database='7ymedio', port=3306)
+    try:
+        with con.cursor() as cur:
+            cur.execute('SELECT player_id FROM player')
+            pid = cur.fetchall()
+            for id in pid:
+                playersID.append(id)
+    finally:
+        con.close()
+    return playersID
+
+
+def newHuman():
+    width = os.get_terminal_size().columns
+    print("*" * width + "\n")
+    print(pyfiglet.figlet_format("New Bot Player"))
+    print("\n" + "*" * width + "\n")
+    while True:
+        newName = input("Name: ")
+        if newName.isalnum() is False:
+            print("\nIncorrect name. The name introduced must only contain letters and numbers and not have spaces.\n")
+            input("\nEnter to continue\n")
+        else:
+            break
+    print("\nName:".ljust(10) + newName)
+    while True:
+        nifletter = "TRWAGMYFPDXBNJZSQVHLCKE"
+        newNif = input("NIF: ")
+        if len(newNif) != 9:
+            print("Incorrect NIF format")
+            input("\nEnter to continue\n")
+        else:
+            if newNif[0:8].isdigit() is False or newNif[8].isalpha() is False:
+                print("\nIncorrect NIF format")
+                input("\nEnter to continue\n")
+            else:
+                if nifletter[int(newNif[0:8])%23] != newNif[8].upper():
+                    print("\nIncorrect NIF letter")
+                    input("\nEnter to continue\n")
+                else:
+                    exist = False
+                    playersID = allPlayersID()
+                    for id in playersID:
+                        if id[0] == newNif:
+                            exist = True
+                    if exist:
+                        print("\nNIF already exists")
+                        input("\nEnter to continue\n")
+                    else:
+                        break   
+    print("\nName:".ljust(10) + newName + "\nDNI:".ljust(10) + newNif)
+    while True:
+        newType = input("\nSelect profile for the new boot: \n1)Cautious \n2)Moderated \n3)Bold \nOption: ")
+        options = [1, 2, 3]
+        exist = False
+        for value in options: 
+            if str(value) == newType:
+                exist = True
+                newType = int(newType)
+        if exist:
+            break
+        else:
+            print("Invalid option")
+    if newType == 1:
+        newType = "Cautious"
+    elif newType == 2:
+        newType = "Moderated"
+    elif newType == 3:
+        newType = "Bold"
+    print("\nName:".ljust(10) + newName + "\nDNI:".ljust(10) + newNif + "\nProfile:".ljust(10) + newType)
+    if newType == "Cautious":
+        newType = 30
+    elif newType == "Moderated":
+        newType = 40
+    elif newType == "Bold":
+        newType = 50
+    confirm = input("Are this values right? Y/y = yes | N/n = no: ")
+    if confirm.lower() == "y" or confirm.lower() == "yes":
+        con = pymysql.connect(host='proyecto-global-gjm.mysql.database.azure.com', user='administrador', password='Pr0jectoGJM', database='7ymedio', port=3306)
+        newHum = (newNif, newName, newType, True)
+        try:
+            with con.cursor() as cur:
+                cur.execute('INSERT INTO player VALUES (%s, %s, %s, %s)', (newHum[0], newHum[1], newHum[2], newHum[3]))
+                con.commit()
+        finally:
+            con.close()
+    print("\n")
+
+
+def newBoot():
+    width = os.get_terminal_size().columns
+    print("*" * width + "\n")
+    print(pyfiglet.figlet_format("New Bot Player"))
+    print("\n" + "*" * width + "\n")
+    while True:
+        newName = input("Name: ")
+        if newName.isalnum() is False:
+            print("\nIncorrect name. The name introduced must only contain letters and numbers and not have spaces.\n")
+        else:
+            break
+    while True:
+        nifletter = "TRWAGMYFPDXBNJZSQVHLCKE"
+        nifNum = []
+        for i in range(0, 8):
+            nifNum.append(str(random.randint(0,9)))
+        newNif = ""
+        for num in nifNum:
+            newNif += num
+        newNif += nifletter[int(newNif)%23]
+        playersID = allPlayersID()
+        exist = False
+        for existingNif in playersID:
+            if existingNif[0] == newNif:
+                exist = True
+        if not exist:
+            break
+    print("\nName:".ljust(10) + newName + "\nDNI:".ljust(10) + newNif)
+    while True:
+        newType = input("\nSelect profile for the new boot: \n1)Cautious \n2)Moderated \n3)Bold \nOption: ")
+        options = [1, 2, 3]
+        exist = False
+        for value in options: 
+            if str(value) == newType:
+                exist = True
+                newType = int(newType)
+        if exist:
+            break
+        else:
+            print("Invalid option")
+    if newType == 1:
+        newType = "Cautious"
+    elif newType == 2:
+        newType = "Moderated"
+    elif newType == 3:
+        newType = "Bold"
+    print("\nName:".ljust(10) + newName + "\nDNI:".ljust(10) + newNif + "\nProfile:".ljust(10) + newType)
+    if newType == "Cautious":
+        newType = 30
+    elif newType == "Moderated":
+        newType = 40
+    elif newType == "Bold":
+        newType = 50
+    confirm = input("Are this values right? Y/y = yes | N/n = no: ")
+    if confirm.lower() == "y" or confirm.lower() == "yes":
+        con = pymysql.connect(host='proyecto-global-gjm.mysql.database.azure.com', user='administrador', password='Pr0jectoGJM', database='7ymedio', port=3306)
+        newBot = (newNif, newName, newType, False)
+        try:
+            with con.cursor() as cur:
+                cur.execute('INSERT INTO player VALUES (%s, %s, %s, %s)', (newBot[0], newBot[1], newBot[2], newBot[3]))
+                con.commit()
+        finally:
+            con.close()
+    print("\n")
+        
+
+
+
+
     
 
- 
+
+
+
+
