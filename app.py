@@ -1,6 +1,7 @@
 import functions
 import data
-import time
+import pymysql
+import pymysql.cursors
 
 m00 = True
 m01 = False
@@ -106,9 +107,9 @@ while True:
             m00 = True
 
     while m05:
-        sel = functions.menuFunct("Reports", "1) Initial card more repeated by each user, only users who have played a minimum of 3 games. \n2) Player who makes the highest bet per game, find the round with the highest bet. \n3) Player who makes the lowest bet per game. \n4) Percentage of rounds won per player in each game (%), as well as their average bet for the game. \n5) List of games won by Bots. \n6) Rounds won by the bank in each game. \n7) Number of users that have been the bank in each game. \n8)Average bet per game. \n9) Average bet of the first round of each game. \n10) Average bet of the last round of each game. \n11) Go back", "Option: ", [1, 2, 3, 4])
+        sel = functions.menuFunct("Reports", "1) Initial card more repeated by each user, only users who have played a minimum of 3 games. \n2) Player who makes the highest bet per game, find the round with the highest bet. \n3) Player who makes the lowest bet per game. \n4) Percentage of rounds won per player in each game (%), as well as their average bet for the game. \n5) List of games won by Bots. \n6) Rounds won by the bank in each game. \n7) Number of users that have been the bank in each game. \n8)Average bet per game. \n9) Average bet of the first round of each game. \n10) Average bet of the last round of each game. \n11) Go back", "Option: ", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
         if sel == 1:
-            print("Initial card repeated")
+            print("A")
         elif sel == 2:
             print("Highest bet per game")
         elif sel == 3:
@@ -120,13 +121,34 @@ while True:
         elif sel == 6:
             print("Rounds won by bank")
         elif sel == 7:
-            print("Users tha have been bank per game")
+            con = pymysql.connect(host='proyecto-global-gjm.mysql.database.azure.com', user='administrador', password='Pr0jectoGJM', database='7ymedio', port=3306, cursorclass=pymysql.cursors.DictCursor)
+            try:
+                with con.cursor() as cur:
+                    cur.execute("select cardgame_id as, count(distinct player_id) from player_game_round where is_bank=1 group by cardgame_id")
+                    rows=cur.fetchall()
+                    print(rows)
+            finally:
+                con.close
         elif sel == 8:
-            print("Average bet per game")
+            con = pymysql.connect(host='proyecto-global-gjm.mysql.database.azure.com', user='administrador', password='Pr0jectoGJM', database='7ymedio', port=3306, cursorclass=pymysql.cursors.DictCursor)
+            try:
+                with con.cursor() as cur:
+                    cur.execute("SELECT cardgame_id , avg(bet_points) FROM player_game_round group by cardgame_id")
+                    rows=cur.fetchall()
+                    print(rows)
+            finally:
+                con.close
         elif sel == 9:
-            print("Average bet first round of game")
+            con = pymysql.connect(host='proyecto-global-gjm.mysql.database.azure.com', user='administrador', password='Pr0jectoGJM', database='7ymedio', port=3306, cursorclass=pymysql.cursors.DictCursor)
+            try:
+                with con.cursor() as cur:
+                    cur.execute("select cardgame_id, avg(bet_points) from player_game_round where round_num=1 group by cardgame_id")
+                    rows=cur.fetchall()
+                    print(rows)
+            finally:
+                con.close
         elif sel == 10:
-            print("Average bet last round of game")
+            print("10")
         elif sel == 11:
             m00 = True
             m05 = False
