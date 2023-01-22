@@ -1,0 +1,77 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Proyecto 1</title>
+        <link href="documentacion_pro.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="upper">
+            <a href="p_carga/pantalla_de_carga.html">
+                <img class="logo" src="imagenes/logo.png">
+            </a>
+            <h1 class="title">Siete y medio</h1>
+        </div>
+        <header>
+            <div class="lower">
+                <a href="p_carga/pantalla_de_carga_equipo.html">Equipo</a>
+                <a href="p_carga/pantalla_de_carga_tuto.html">Tutorial</a>
+                <a href="p_carga/pantalla_de_carga_doc.html">Documentación</a>
+            </div>
+        </header>
+        <div class="global">
+            <div class="column">
+                <div class="texto autocenter">
+                    <h2>Documento del programa</h2>
+                    <h3>Logica del juego banca</h3>
+                    <p>
+                        La logica tras el juego de un bot que es la banca es
+                        pedir cartas hasta que: se ha pasado, ha sacado un
+                        7.5, ha superado o igualado al jugador con mas puntos 
+                        sin pasarse o entre los puntos que gana y los que pierde
+                        sobrevive y la posibilidad de pasarse es superior al
+                        tipo de riesgo del jugador.
+                    </p>
+                    <img src="imagenes/bot_banca.png">
+                </div>
+            </div>
+            <div class="column">
+                <div class="texto autocenter">
+                    <h3>Logica del juego del bot</h3>
+                    <p>
+                        La logica tras el juego de un bot que no es la banca es
+                        ir pidiendo cartas hasta que se pase o el riesgo de
+                        pasarse se superior al tipo de riesgo del jugador.
+                    </p>
+                    <img src="imagenes/bot_normal.png">
+                </div>
+            </div>
+            <div class="column">
+                <div class="texto autocenter">      
+                    <h3>Esablecimiento de la prioridad inicial de lo jugadores</h3>
+                    <p>
+                        Para establecer a la prioridad al inicio de la partida
+                        cada jugador coge una carta y se establece en base al puntage de
+                        la carta y en caso de empate hay una prioridad que es: Oros, 
+                        Copas, Espadas y Bastos.  
+                    </p>
+                    <img src="imagenes/prioridad2.png">
+                </div>
+            </div>
+            <div class="column">
+                <div class="texto autocenter">      
+                    <h3>Inserción en BBDD de las tabals cardgame, player_round y player_round_game</h3>
+                    <p>
+                        Para insertar los datos a las tablas hemos hecho unos diccionarios
+                        con las id que se llaman igual que en las tablas y vamos 
+                        agragando datos a esos diccionarios conforme avanza la partida.
+                    </p>
+                </div>
+            </div>
+        </div> 
+        <footer>
+            <p class="name">Jordi Lostao Navarrete | Gabriel Travé Biel | Manel Ruano García</p>
+        </footer>   
+    </body>
+</html>
