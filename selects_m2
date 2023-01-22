@@ -1,0 +1,13 @@
+7) select cardgame_id as 'id de la partida', count(distinct player_id) as 'Cantidad de usuarios siendo banca' 
+   from player_game_round 
+   where is_bank=1 
+   group by cardgame_id; 
+9) select cardgame_id as 'id de la partida', avg(bet_points) as 'apuesta media primera ronda'
+   from player_game_round 
+   where round_num=1 group by cardgame_id;
+
+10) select pr.cardgame_id as 'id de la partida', avg(pr.bet_points) as 'apuesta media ultima ronda'
+    from player_game_round pr 
+    inner join cardgame c on c.cardgame_id=pr.cardgame_id 
+    where round_num=rounds 
+    group by pr.cardgame_id;
